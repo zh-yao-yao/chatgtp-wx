@@ -1,6 +1,7 @@
 package com.zyy.wxpush.util;
 
 
+import com.zyy.wxpush.message.ImageMessage;
 import com.zyy.wxpush.message.TextMessage;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
@@ -60,7 +61,20 @@ public class WxPushMessageUtil {
     }
 
 
-
+    /**
+     * 发送自定义文本
+     *
+     * @param openId  开放编号
+     * @param content 内容
+     */
+    public String sendCustomImage(String openId, String toUserName, String content) {
+        ImageMessage imageMessage = new ImageMessage();
+        imageMessage.setToUserName(openId);
+        imageMessage.setFromUserName(toUserName);
+        imageMessage.setContent(content);
+        imageMessage.setCreateTime(System.currentTimeMillis());
+        return getXmlImage(imageMessage);
+    }
 
     /**
      * 发送自定义文本
@@ -102,5 +116,28 @@ public class WxPushMessageUtil {
         return xml;
     }
 
+    public String getXmlImage(ImageMessage imageMessage) {
+        String xml = "";
+        if (imageMessage != null) {
+            xml = "<xml>";
+            xml += "<ToUserName><![CDATA[";
+            xml += imageMessage.getToUserName();
+            xml += "]]></ToUserName>";
+            xml += "<FromUserName><![CDATA[";
+            xml += imageMessage.getFromUserName();
+            xml += "]]></FromUserName>";
+            xml += "<CreateTime>";
+            xml += imageMessage.getCreateTime();
+            xml += "</CreateTime>";
+            xml += "<MsgType><![CDATA[";
+            xml += imageMessage.getMsgType();
+            xml += "]]></MsgType>";
+            xml += "<PicUrl><![CDATA[";
+            xml += imageMessage.getContent();
+            xml += "]]></PicUrl>";
+            xml += "</xml>";
+        }
+        return xml;
+    }
 
 }

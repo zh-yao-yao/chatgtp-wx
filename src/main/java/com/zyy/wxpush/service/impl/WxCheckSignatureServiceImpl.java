@@ -44,8 +44,14 @@ public class WxCheckSignatureServiceImpl implements WxCheckSignatureService {
         switch (type) {
             // 文本类型
             case WxConstant.RESP_MESSAGE_TYPE_TEXT:
-                String msg = chatGptUtil.chatGptMsg(content, msgId);
-                return messageUtil.sendCustomText(openId, toUserName, msg);
+                String msg;
+                if (content.indexOf("画") == 0) {
+                    msg = chatGptUtil.chatGptImage(content, msgId);
+                    return messageUtil.sendCustomImage(openId, toUserName, msg);
+                } else {
+                    msg = chatGptUtil.chatGptTurbo(content, msgId);
+                    return messageUtil.sendCustomText(openId, toUserName, msg);
+                }
             // 关注 和 取消关注类型
             case WxConstant.REQ_MESSAGE_TYPE_EVENT:
                 if (map.get(WxConstant.EVENT_NAME).equals(WxConstant.SUBSCRIBE_NAME)) {

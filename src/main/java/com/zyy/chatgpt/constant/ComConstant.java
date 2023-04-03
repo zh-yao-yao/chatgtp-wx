@@ -12,7 +12,11 @@ public interface ComConstant {
 
     String CHOICES = "choices";
 
+    String DATA = "data";
+
     String TEXT = "text";
+
+    String URL = "url";
 
     String MESSAGE = "message";
 

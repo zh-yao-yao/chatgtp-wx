@@ -6,6 +6,14 @@ package com.zyy.chatgpt.constant;
  */
 public interface ChatGptConstant {
 
+    /**
+     * Completions API
+     */
     String COMPLETIONS_URL = "https://api.openai.com/v1/completions";
+
+    /**
+     * Image API
+     */
+    String IMAGE_URL = "https://api.openai.com/v1/images/generations";
 
 }

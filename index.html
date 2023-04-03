@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>ChatGPT</title>
+    <style>
+      /* 聊天框样式 */
+      .chatbox {
+        height: 400px;
+        width: 500px;
+        background-color: #f2f2f2;
+        border: 1px solid black;
+        overflow: auto;
+        padding: 10px;
+        margin-bottom: 10px;
+      }
+      /* 输入框样式 */
+      .inputbox {
+        height: 50px;
+        width: 500px;
+        margin-bottom: 10px;
+      }
+      /* 按钮样式 */
+      button {
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        padding: 10px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="chatbox" id="chatbox"></div>
+    <input type="text" class="inputbox" id="inputbox" placeholder="Type your message...">
+    <button onclick="sendMessage()">Send</button>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    <script>
+      // 发送消息函数
+      function sendMessage() {
+        // 获取输入框中的文本
+        var message = document.getElementById("inputbox").value;
+        // 创建新的消息元素
+        var newMessage = document.createElement("div");
+        newMessage.innerHTML = "<p>You: " + message + "</p>";
+        newMessage.style.backgroundColor = "#e6f7ff";
+        // 将新的消息元素添加到聊天框中
+        document.getElementById("chatbox").appendChild(newMessage);
+        // 清空输入框
+        document.getElementById("inputbox").value = "";
+        // 将消息发送到服务器并获取响应
+
+        $.ajax({
+        type: "GET",
+        url: "http://120.26.160.182:80/wx",
+        data: {content: message},
+        success: function(response) {
+          var newResponse = document.createElement("div");
+          newResponse.innerHTML = "<p>ChatGPT: " + response + "</p>";
+          newResponse.style.backgroundColor = "#f2f2f2";
+          document.getElementById("chatbox").appendChild(newResponse);
+        },
+        error: function() {
+          alert("Error sending message");
+        }
+      });
+      }
+    </script>
+  </body>
+</html>
